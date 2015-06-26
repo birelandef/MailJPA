@@ -1,5 +1,9 @@
 package com.company.core.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 /**
  * The entity of the folder. The container containing the user's messages.
  *
@@ -11,7 +15,9 @@ public class Folder extends Entity {
     /**
      * The account identifier of the mailbox which contains this folder
      */
-    private String idAccount;
+    @ManyToOne
+    @JoinColumn(name="idAccount")
+    private Account idAccount;
     /**
      * The name of the folder
      */
@@ -19,11 +25,15 @@ public class Folder extends Entity {
     /**
      * The identifier of the parent folder
      */
-    private String idParentFolder;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="idParentFolder")
+    private Folder idParentFolder;
     /**
      * The identifier of the user who owns the folder
      */
-    private String idPerson;
+    @ManyToOne
+    @JoinColumn(name="idPerson")
+    private Person idPerson;
     /**
      * System folder or not
      */
@@ -33,11 +43,9 @@ public class Folder extends Entity {
      */
     private String description;
 
-    public void setIsSystemFolder(boolean isSystemFolder) {
-        this.isSystemFolder = isSystemFolder;
-    }
+    public Folder() {    }
 
-    public Folder(String idAccount, String name, String idParentFolder, String idPerson, boolean isSystemFolder,
+    public Folder(Account idAccount, String name, Folder idParentFolder, Person idPerson, boolean isSystemFolder,
                   String description) {
         super();
         this.idAccount = idAccount;
@@ -48,11 +56,11 @@ public class Folder extends Entity {
         this.description = description;
     }
 
-    public String getIdAccount() {
+    public Account getIdAccount() {
         return idAccount;
     }
 
-    public void setIdAccount(String idAccount) {
+    public void setIdAccount(Account idAccount) {
         this.idAccount = idAccount;
     }
 
@@ -64,19 +72,19 @@ public class Folder extends Entity {
         this.name = name;
     }
 
-    public String getIdParentFolder() {
+    public Folder getIdParentFolder() {
         return idParentFolder;
     }
 
-    public void setIdParentFolder(String idParentFolder) {
+    public void setIdParentFolder(Folder idParentFolder) {
         this.idParentFolder = idParentFolder;
     }
 
-    public String getIdPerson() {
+    public Person getIdPerson() {
         return idPerson;
     }
 
-    public void setIdPerson(String idPerson) {
+    public void setIdPerson(Person idPerson) {
         this.idPerson = idPerson;
     }
 
@@ -84,7 +92,7 @@ public class Folder extends Entity {
         return isSystemFolder;
     }
 
-    public void setSystemFolder(boolean isSystemFolder) {
+    public void setIsSystemFolder(boolean isSystemFolder) {
         this.isSystemFolder = isSystemFolder;
     }
 

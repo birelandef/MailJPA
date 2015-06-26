@@ -3,7 +3,7 @@ package com.company.core.entity;
 import com.company.api.Gender;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +12,8 @@ import java.util.Map;
  *
  * @author Sofia Ruban
  */
+
 @javax.persistence.Entity
-@Table(name = "PERSON")
 public class Person extends Entity {
 
     /**
@@ -51,15 +51,30 @@ public class Person extends Entity {
     /**
      * Birthday user
      */
+    @Temporal(value = TemporalType.DATE)
     private Date birthday;
     /**
      * The list of user mailboxes
      */
+
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @MapKey(name="id")
+    @Transient
     private Map<String, Account> mailboxes = new HashMap<String, Account>();
     /**
      * The user's contact list
      */
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinTable(name = "PERSON_CONTACT",
+            joinColumns = {@JoinColumn(name = "IDPERSON")},
+            inverseJoinColumns = @JoinColumn(name = "IDCONTACT"))
+    @JoinColumn(name = "IDPERSON")
+    @MapKey(name="id")
     private Map<String, Contact> contacts = new HashMap<String, Contact>();
+
+    public Person() {
+        super();
+    }
 
     public Person(String login, String password, String name, String surname, Gender gender, Date birthday,
                   String country, String city, String info, Map<String, Account> mailboxes, Map<String, Contact> contacts) {
@@ -117,6 +132,14 @@ public class Person extends Entity {
         this.gender = gender;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -140,31 +163,21 @@ public class Person extends Entity {
     public void setInfo(String info) {
         this.info = info;
     }
-    @Temporal(TemporalType.DATE)
-    public Date getBirthday() {
-        return birthday;
-    }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IDPERSON")
     public Map<String, Account> getMailboxes() {
         return mailboxes;
     }
 
     public void setMailboxes(Map<String, Account> mailboxes) {
-        this.mailboxes = mailboxes;
+        this.mailboxes.putAll(mailboxes);
     }
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IDPERSON")
+
     public Map<String, Contact> getContacts() {
         return contacts;
     }
 
     public void setContacts(Map<String, Contact> contacts) {
-        this.contacts = contacts;
+        this.contacts.putAll(contacts);
     }
 
     @Override

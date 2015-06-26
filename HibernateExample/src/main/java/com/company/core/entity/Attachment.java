@@ -1,5 +1,9 @@
 package com.company.core.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Arrays;
 
 /**
@@ -7,6 +11,7 @@ import java.util.Arrays;
  *
  * @author Sofia Ruban
  */
+@javax.persistence.Entity
 public class Attachment extends Entity {
 
     /**
@@ -16,29 +21,38 @@ public class Attachment extends Entity {
     /**
      * The contents of the file
      */
+    @Column(name = "FILES")
     private byte[] files;
 
     /**
      * idLetter
      */
-    private String idLetter;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="idLetter")
+    private Letter idLetter;
 
     /**
      * idFolder
      */
-    private String idFolder;
+    @ManyToOne
+    @JoinColumn(name="idFolder")
+    private Folder idFolder;
 
     /**
      * idAccount
      */
-    private String idAccount;
+    @ManyToOne
+    @JoinColumn(name="idAccount")
+    private Account idAccount;
 
     /**
      * idPerson
      */
-    private String idPerson;
+    @ManyToOne
+    @JoinColumn(name="idPerson")
+    private Person idPerson;
 
-    public Attachment(String name, byte[] files, String idLetter, String idFolder, String idAccount, String idPerson) {
+    public Attachment(String name, byte[] files, Letter idLetter, Folder idFolder, Account idAccount, Person idPerson) {
         this.name = name;
         this.files = files;
         this.idLetter = idLetter;
@@ -46,6 +60,8 @@ public class Attachment extends Entity {
         this.idAccount = idAccount;
         this.idPerson = idPerson;
     }
+
+    public Attachment() {    }
 
     public String getName() {
         return name;
@@ -64,35 +80,35 @@ public class Attachment extends Entity {
         this.files = files;
     }
 
-    public String getIdLetter() {
+    public Letter getIdLetter() {
         return idLetter;
     }
 
-    public void setIdLetter(String idLetter) {
+    public void setIdLetter(Letter idLetter) {
         this.idLetter = idLetter;
     }
 
-    public String getIdFolder() {
+    public Folder getIdFolder() {
         return idFolder;
     }
 
-    public void setIdFolder(String idFolder) {
+    public void setIdFolder(Folder idFolder) {
         this.idFolder = idFolder;
     }
 
-    public String getIdAccount() {
+    public Account getIdAccount() {
         return idAccount;
     }
 
-    public void setIdAccount(String idAccount) {
+    public void setIdAccount(Account idAccount) {
         this.idAccount = idAccount;
     }
 
-    public String getIdPerson() {
+    public Person getIdPerson() {
         return idPerson;
     }
 
-    public void setIdPerson(String idPerson) {
+    public void setIdPerson(Person idPerson) {
         this.idPerson = idPerson;
     }
 

@@ -1,7 +1,5 @@
 package com.company.core.entity;
 
-import javax.persistence.Table;
-
 /**
  * The entity of the contact.
  *

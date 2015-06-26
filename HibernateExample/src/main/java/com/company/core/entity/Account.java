@@ -1,6 +1,6 @@
 package com.company.core.entity;
 
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * The entity of the account of the mailbox
@@ -33,9 +33,13 @@ public class Account extends Entity {
     /**
      * id Person
      */
-    private String idPerson;
+    @ManyToOne
+    @JoinColumn(name="idPerson")
+    private Person idPerson;
 
-    public Account(String email, String password, String outgoingMailServer, String incomingMailServer, String idPerson) {
+    public Account() {}
+
+    public Account(String email, String password, String outgoingMailServer, String incomingMailServer, Person idPerson) {
         super();
         this.email = email;
         this.password = password;
@@ -77,11 +81,11 @@ public class Account extends Entity {
         this.incomingMailServer = incomingMailServer;
     }
 
-    public String  getIdPerson() {
+    public Person  getIdPerson() {
         return idPerson;
     }
 
-    public void setIdPerson(String idPerson) {
+    public void setIdPerson(Person idPerson) {
         this.idPerson = idPerson;
     }
 
