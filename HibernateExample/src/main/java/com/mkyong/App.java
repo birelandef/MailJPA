@@ -1,13 +1,16 @@
 package com.mkyong;
 
-import java.util.Date;
-import java.util.Locale;
+import java.awt.*;
+import java.util.*;
 
-import com.company.core.entity.Contact;
+import com.company.api.Gender;
+import com.company.core.entity.*;
 import org.hibernate.Session;
 import com.mkyong.util.HibernateUtil;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class App {
@@ -20,17 +23,59 @@ public class App {
 		contact.setName("Sophiya");
 		contact.setSurname("Ruban");
 
+		Map<String, Contact> contacts = new HashMap<>();
+		contacts.put(contact.getId(), contact);
+
+		Person person = new Person("login", "password", "Vitya", "Savrasov", Gender.MAN, new Date(1),
+				"Russia", "Moscow", "", new HashMap<String, Account>(),contacts);
+
+		Account account = new Account("myemail@yandex.ru","qwerty","yandex", "mail", person);
+		Map<String, Account> accounts = new HashMap<>();
+		accounts.put(account.getId(), account);
+
+		person.setMailboxes(accounts);
+
+		Folder folder = new Folder(account, "New Folder", null, person, true, "my first insert folder");
+
+		ArrayList<String> toWhom = new ArrayList<>();
+		toWhom.add("firstaddressees@yandex.ru");
+		toWhom.add("secondaddressees@yandex.ru");
+		ArrayList<String> copy = new ArrayList<>();
+		copy.add("firstaddressees@yandex.ru");
+		copy.add("secondaddressees@yandex.ru");
+
+
+		Letter letter = new Letter(person, folder, account, true, "newaddresseed@gmail.com",toWhom, copy, "news",
+				"Call me as soon as you can.", null, new Date(1455555555));
+
+		Attachment attachment = new Attachment("foto", new byte[2],letter, folder, account, person);
+
+		ArrayList<Attachment> attachments = new ArrayList<>();
+		attachments.add(attachment);
+		letter.setAttachments(attachments);
+
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("mailDB");
+		EntityManager em = emf.createEntityManager();
+
+		EntityTransaction tx = em.getTransaction();
 
 
+		tx.begin();
+		em.persist(contact);
+		em.persist(person);
+		em.persist(account);
+		em.persist(folder);
+//		em.persist(letter);
+//		em.persist(attachment);
+		tx.commit();
 
-//		Session session = HibernateUtil.getSessionFactory().openSession();
-//
-//		session.beginTransaction();
-//		DBUser user = new DBUser();
-//
-//		session.save(contact);
-//		session.save(user);
-//		session.getTransaction().commit();
+		tx.begin();
+		em.remove(person);
+		tx.commit();
+
+
+		em.close();
+		emf.close();
+
 	}
 }
