@@ -7,8 +7,6 @@ import java.io.File;
  */
 public interface Constants {
     String SEPARATOR  = File.separator;
-    String PATHTORESOURCES = System.getProperty("user.dir") + Constants.SEPARATOR +
-            "resources" + Constants.SEPARATOR;
     String URL = "jdbc:oracle:thin:@localhost:1521/XE";
     String name = "SOPHIE";
     String password  = "SOPHIE";

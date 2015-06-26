@@ -59,6 +59,7 @@ public class Person extends Entity {
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @MapKey(name="id")
+//    @JoinColumn(name = "idPerson")
     @Transient
     private Map<String, Account> mailboxes = new HashMap<String, Account>();
     /**
@@ -74,6 +75,23 @@ public class Person extends Entity {
 
     public Person() {
         super();
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", gender=" + gender.toString() +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", info='" + info + '\'' +
+                ", birthday=" + birthday.toString() +
+                ", mailboxes=" + mailboxes.toString() +
+                ", contacts=" + contacts.toString() +
+                '}';
     }
 
     public Person(String login, String password, String name, String surname, Gender gender, Date birthday,
@@ -180,21 +198,4 @@ public class Person extends Entity {
         this.contacts.putAll(contacts);
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id='" + getId() + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", gender=" + gender +
-                ", birthday=" + birthday +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", info='" + info + '\'' +
-                ", mailboxes=" + mailboxes +
-                ", contacts=" + contacts +
-                '}';
-    }
 }

@@ -226,20 +226,21 @@ public class Letter extends Entity {
         this.toWhom = list;
     }
 
+
     @Override
     public String toString() {
         return "Letter{" +
-                "id='" + getId() + '\'' +
-                ", idPerson='" + idPerson + '\'' +
-                ", idFolder='" + idFolder + '\'' +
+                "idPerson=" + idPerson.toString() +
+                ", idFolder=" + idFolder.toString() +
+                ", idAccount=" + idAccount.toString() +
                 ", isSeen=" + isSeen +
-                ", fromWhom='" + fromWhom + '\'' +
-                ", toWhom=" + toWhom +
-                ", copy=" + copy +
+                ", fromWhom='" + fromWhom.toString() + '\'' +
+                ", toWhom=" + toWhomM +
+                ", copy=" + copyM +
                 ", subject='" + subject + '\'' +
                 ", message='" + message + '\'' +
-                ", attachments=" + attachments +
-                ", date=" + date +
+                ", attachments=" + attachments.toString() +
+                ", date=" + date.toString() +
                 '}';
     }
 }

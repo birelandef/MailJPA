@@ -56,12 +56,10 @@ public class Contact extends Entity {
         this.surname = surname;
     }
 
-
     @Override
     public String toString() {
         return "Contact{" +
-                "id='" + getId() + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 '}';

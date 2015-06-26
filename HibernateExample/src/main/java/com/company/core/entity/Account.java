@@ -92,12 +92,11 @@ public class Account extends Entity {
     @Override
     public String toString() {
         return "Account{" +
-                "id='" + getId() + '\'' +
-                ", email='" + email + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", outgoingMailServer='" + outgoingMailServer + '\'' +
                 ", incomingMailServer='" + incomingMailServer + '\'' +
-                ", idPerson='" + idPerson + '\'' +
+                ", idPerson=" + idPerson.getId()+
                 '}';
     }
 }

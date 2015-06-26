@@ -44,9 +44,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="junit-4.11" level="project" />
-    <orderEntry type="library" name="org.hibernate:hibernate-core:3.6.3.Final" level="project" />
-    <orderEntry type="library" name="hibernate-entitymanager-3.6.3.Final" level="project" />
     <orderEntry type="library" name="javassist-3.18.2-GA" level="project" />
-    <orderEntry type="library" name="persistence-api-1.0.2" level="project" />
+    <orderEntry type="library" name="org.hibernate:hibernate-entitymanager:4.3.9.Final" level="project" />
   </component>
 </module>

@@ -74,7 +74,7 @@ public interface AbstractFactory {
      */
     public Letter createLetter(Date dateFrom, String emailRecipient, List<String> listSender, String subject, List<String> carbonCopy,
                                List<String> blindCarbonCopy, String message, List<Attachment> listAttachment, String idFolder,
-                               String idPerson, String idAccount, boolean isRead);
+                               String idPerson, String idAccount,boolean isRead);
 
     /**
      *

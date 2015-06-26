@@ -31,4 +31,7 @@ public abstract class Entity{
     public String getId() {
         return id;
     }
+
+    @Override
+    public abstract String toString();
 }

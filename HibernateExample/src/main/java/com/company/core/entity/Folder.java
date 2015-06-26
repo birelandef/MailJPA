@@ -107,11 +107,10 @@ public class Folder extends Entity {
     @Override
     public String toString() {
         return "Folder{" +
-                "id='" + getId() + '\'' +
-                ", idAccount='" + idAccount + '\'' +
+                "idAccount=" + idAccount.getId() +
                 ", name='" + name + '\'' +
-                ", idParentFolder='" + idParentFolder + '\'' +
-                ", idPerson='" + idPerson + '\'' +
+                ", idParentFolder=" + idParentFolder.getId() +
+                ", idPerson=" + idPerson.getId() +
                 ", isSystemFolder=" + isSystemFolder +
                 ", description='" + description + '\'' +
                 '}';

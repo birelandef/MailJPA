@@ -23,7 +23,7 @@ public interface DAO<T extends Entity> {
      *
      * @return
      */
-    Collection<T> getAllEntity();
+    Collection<T> getAllEntity(Class clazz);
 
     /**
      * Find entyty by id

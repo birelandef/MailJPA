@@ -2,8 +2,7 @@ package com.company.api;
 
 import com.company.core.entity.*;
 
-import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,7 @@ public interface EntityFactoryInterface {
      * @param idPerson
      * @return
      */
-    Account createAccount(String email, String password, String outgoingMailServer, String incomingMailServer, String idPerson);
+    Account createAccount(String email, String password, String outgoingMailServer, String incomingMailServer, Person idPerson);
 
     Contact createContact(String email, String name, String surname);
 
@@ -56,7 +55,7 @@ public interface EntityFactoryInterface {
      * @param description
      * @return
      */
-    Folder createFolder(String idAccount, String name, String idParentFolder, String idPerson, boolean isSystemFolder,
+    Folder createFolder(Account idAccount, String name, Folder idParentFolder, Person idPerson, boolean isSystemFolder,
                         String description);
 
     /**
@@ -74,7 +73,7 @@ public interface EntityFactoryInterface {
      * @param date
      * @return
      */
-    Letter createLetter(String idPerson, String idFolder, String idAccount, boolean isSeen, String fromWhom, List<String> toWhom,
+    Letter createLetter(Person idPerson, Folder idFolder, Account idAccount, boolean isSeen, String fromWhom, List<String> toWhom,
                         List<String> copy, String subject, String message, List<Attachment> attachments, Date date);
 
     /**
@@ -87,5 +86,5 @@ public interface EntityFactoryInterface {
      * @param idPerson
      * @return
      */
-    Attachment createAttachment(String name, byte[] files, String idLetter, String idFolder, String idAccount, String idPerson);
+    Attachment createAttachment(String name, byte[] files, Letter idLetter, Folder idFolder, Account idAccount, Person idPerson);
 }

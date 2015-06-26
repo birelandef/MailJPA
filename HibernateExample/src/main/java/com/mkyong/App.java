@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.*;
 
 import com.company.api.Gender;
+import com.company.core.dao.JPADAO;
 import com.company.core.entity.*;
 import org.hibernate.Session;
 import com.mkyong.util.HibernateUtil;
@@ -44,7 +45,6 @@ public class App {
 		copy.add("firstaddressees@yandex.ru");
 		copy.add("secondaddressees@yandex.ru");
 
-
 		Letter letter = new Letter(person, folder, account, true, "newaddresseed@gmail.com",toWhom, copy, "news",
 				"Call me as soon as you can.", null, new Date(1455555555));
 
@@ -54,28 +54,40 @@ public class App {
 		attachments.add(attachment);
 		letter.setAttachments(attachments);
 
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("mailDB");
-		EntityManager em = emf.createEntityManager();
-
-		EntityTransaction tx = em.getTransaction();
-
-
-		tx.begin();
-		em.persist(contact);
-		em.persist(person);
-		em.persist(account);
-		em.persist(folder);
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("mailDB");
+//		EntityManager em = emf.createEntityManager();
+//
+//		EntityTransaction tx = em.getTransaction();
+//
+//
+//		tx.begin();
+//		em.persist(contact);
+//		em.persist(person);
+//		em.persist(account);
+//		em.persist(folder);
 //		em.persist(letter);
 //		em.persist(attachment);
-		tx.commit();
+//		tx.commit();
+//
+//		tx.begin();
+//		em.remove(folder);
+//		tx.commit();
+//
+//
+//		em.close();
+//		emf.close();
 
-		tx.begin();
-		em.remove(person);
-		tx.commit();
-
-
-		em.close();
-		emf.close();
-
+		JPADAO<Person> jpadao = new JPADAO("mailDB");
+		jpadao.addEntity(person);
+		person.setCity("New Mex");
+		jpadao.updateEntity(person);
+		Entity entityById = jpadao.findEntityById(person.getId());
+		System.out.println(entityById.getId());
+		Collection<Person> allEntity = jpadao.getAllEntity(Person.class);
+		Iterator<Person> iterator  = allEntity.iterator();
+		while (iterator.hasNext()){
+			System.out.println(iterator.next().toString());
+		}
+		jpadao.stopEntityManager();
 	}
 }

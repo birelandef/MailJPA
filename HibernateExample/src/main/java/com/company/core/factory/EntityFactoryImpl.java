@@ -4,7 +4,7 @@ import com.company.api.EntityFactoryInterface;
 import com.company.api.Gender;
 import com.company.core.entity.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
     }
 
     @Override
-    public Account createAccount(String email, String password, String outgoingMailServer, String incomingMailServer, String idPerson) {
+    public Account createAccount(String email, String password, String outgoingMailServer, String incomingMailServer, Person idPerson) {
         return new Account(email, password, outgoingMailServer, incomingMailServer, idPerson);
     }
 
@@ -44,19 +44,19 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
     }
 
     @Override
-    public Folder createFolder(String idAccount, String name, String idParentFolder, String idPerson,
+    public Folder createFolder(Account idAccount, String name, Folder idParentFolder, Person idPerson,
                                boolean isSystemFolder, String description) {
         return new Folder(idAccount, name, idParentFolder, idPerson, isSystemFolder, description);
     }
 
     @Override
-    public Letter createLetter(String idPerson, String idFolder, String idAccount, boolean isSeen, String fromWhom, List<String> toWhom,
+    public Letter createLetter(Person idPerson, Folder idFolder, Account idAccount, boolean isSeen, String fromWhom, List<String> toWhom,
                                            List<String> copy, String subject, String message, List<Attachment> attachments, Date date){
         return new Letter(idPerson,idFolder, idAccount, isSeen, fromWhom, toWhom,copy, subject, message, attachments, date);
     }
 
     @Override
-    public Attachment createAttachment(String name, byte[] files, String idLetter, String idFolder, String idAccount, String idPerson) {
+    public Attachment createAttachment(String name, byte[] files, Letter idLetter, Folder idFolder, Account idAccount, Person idPerson) {
         return new Attachment(name, files, idLetter, idFolder, idAccount, idPerson);
     }
 }

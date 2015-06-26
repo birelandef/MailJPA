@@ -115,13 +115,12 @@ public class Attachment extends Entity {
     @Override
     public String toString() {
         return "Attachment{" +
-                "id='" + getId() + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", files=" + Arrays.toString(files) +
-                ", idLetter='" + idLetter + '\'' +
-                ", idFolder='" + idFolder + '\'' +
-                ", idAccount='" + idAccount + '\'' +
-                ", idPerson='" + idPerson + '\'' +
+                ", idLetter=" + idLetter.getId() +
+                ", idFolder=" + idFolder.getId() +
+                ", idAccount=" + idAccount.getId() +
+                ", idPerson=" + idPerson.getId() +
                 '}';
     }
 }
