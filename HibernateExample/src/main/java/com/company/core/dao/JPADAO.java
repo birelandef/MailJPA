@@ -1,25 +1,34 @@
 package com.company.core.dao;
 
 import com.company.api.DAO;
+import com.company.core.api.Constants;
 import com.company.core.entity.*;
 import com.company.core.entity.Entity;
+import oracle.jdbc.driver.DatabaseError;
+import org.apache.log4j.Logger;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 /**
+ * Class for providing transactions with entity's class
  * @author Sophie
  * @date 27.06.2015.
  */
 public class JPADAO<T extends Entity> implements DAO<T> {
 
+
+    private static final Logger logger = Logger.getLogger(JPADAO.class);
+
     private EntityManagerFactory emf = null;
     private EntityManager em = null;
     private EntityTransaction tx = null;
 
-    public JPADAO(String persistenceUnit ) {
-        emf = Persistence.createEntityManagerFactory(persistenceUnit);
+    public JPADAO() {
+        Locale.setDefault(Locale.ENGLISH);
+        emf = Persistence.createEntityManagerFactory(Constants.unitPersistence);
         em = emf.createEntityManager();
         tx = em.getTransaction();
     }
@@ -78,4 +87,27 @@ public class JPADAO<T extends Entity> implements DAO<T> {
         em.remove(entity);
         tx.commit();
     }
+
+    public boolean isContains(T entity){
+        return (this.findEntityById(entity.getId()) != null ? true : false);
+    }
+
+    public String executeQueryToFindEntityWithCondition(String queryString) throws NoResultException, NonUniqueResultException {
+        TypedQuery<Entity> query = em.createQuery(queryString, Entity.class);
+        Entity singleResult = query.getSingleResult();
+        return  singleResult.getId();
+    }
+
+//
+//    public T findEntityByField(Class entityName, String fieldName, String valueOfFild){
+//        CriteriaBuilder builder = em.getCriteriaBuilder();
+//        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityName);
+//        Root<T> c = criteriaQuery.from(entityName);
+//        criteriaQuery.select(c). where(builder.equal( c.get(fieldName) , valueOfFild));
+//        Query query = em.createQuery( criteriaQuery);
+//        //TODO через findById
+//        List<T> entities = query.getResultList();
+//        //TODO как избежать нескольких экземпл€ров
+//        return entities.get(0); //(entities.get(0) != null ? entities.get(0) : null);
+//    }
 }

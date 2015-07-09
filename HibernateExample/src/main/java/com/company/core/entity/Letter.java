@@ -18,19 +18,19 @@ public class Letter extends Entity {
      * The idPerson identifier
      */
     @ManyToOne
-    @JoinColumn(name="idPerson")
+    @JoinColumn(name = "idPerson")
     private Person idPerson;
     /**
      * The identifier of the folder containing the message
      */
     @ManyToOne
-    @JoinColumn(name="idFolder")
+    @JoinColumn(name = "idFolder")
     private Folder idFolder;
     /**
      * The idAccount identifier
      */
     @ManyToOne
-    @JoinColumn(name="idAccount")
+    @JoinColumn(name = "idAccount")
     private  Account idAccount;
     /**
      * Flag view the letter
@@ -65,7 +65,7 @@ public class Letter extends Entity {
     /**
      * The list of files attached to the message
      */
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "IDLETTER")
     private List<Attachment> attachments = new ArrayList<>();
     /**

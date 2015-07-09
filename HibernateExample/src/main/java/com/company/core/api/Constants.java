@@ -11,5 +11,5 @@ public interface Constants {
     String name = "SOPHIE";
     String password  = "SOPHIE";
     String [] priorityOfTable = {"LETTER", "FOLDER", "PERSON", "ACCOUNT", "ATTACHMENT", "CONTACT"};
-
+    String unitPersistence = "mailDB";
 }
