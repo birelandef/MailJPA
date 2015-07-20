@@ -159,6 +159,22 @@ public class Letter extends Entity {
         this.fromWhom = fromWhom;
     }
 
+    public String getToWhom() {
+        return toWhom.toString().substring(1, toWhom.toString().length() - 1);
+    }
+
+    public void setToWhom(List<String> toWhom) {
+        this.toWhom = toWhom;
+    }
+
+    public String getCopy() {
+        return copy.toString().substring(1, copy.toString().length() - 1);
+    }
+
+    public void setCopy(List<String> copy) {
+        this.copy = copy;
+    }
+
     public String getSubject() {
         return subject;
     }
@@ -211,38 +227,8 @@ public class Letter extends Entity {
         this.toWhomM = toWhomM;
     }
 
-    // TODO поправить на обычный гет
-    public String getToWhom() {
-        StringBuffer listToString = new StringBuffer();
-        for (String content : this.toWhom) {
-            listToString.append(content);
-            listToString.append(", ");
-        }
-        return listToString.toString();
-    }
-
     // TODO поправить на обычный сет
     private void setToWhom(String listAsString) {
-        List<String> list = new ArrayList<>();
-        if (listAsString != null) {
-            String[] items = listAsString.split(",");
-            list = Arrays.asList(items);
-        }
-        this.toWhom = list;
-    }
-
-    // TODO поправить на обычный гет
-    public String getCopy() {
-        StringBuffer listToString = new StringBuffer();
-        for (String content : this.copy) {
-            listToString.append(content);
-            listToString.append(", ");
-        }
-        return listToString.toString();
-    }
-
-    // TODO поправить на обычный сет
-    private void setCopy(String listAsString) {
         List<String> list = new ArrayList<>();
         if (listAsString != null) {
             String[] items = listAsString.split(",");
