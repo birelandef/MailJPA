@@ -150,7 +150,6 @@ public class EntityFactoryImplTest {
         log.trace("The call method testCreateAttachment()");
 
         File file = new File(this.getClass().getResource("Test_file.jpg").toURI());
-        System.out.println(file.getAbsolutePath());
         attachment.setName(file.getName());
         attachment.setFiles(Files.readAllBytes(file.toPath()));
         attachment.setIdLetter(letter);
