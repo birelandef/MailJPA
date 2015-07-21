@@ -2,8 +2,7 @@ package edu.mail.core.factory;
 
 import edu.mail.api.Gender;
 import edu.mail.core.entities.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +16,7 @@ import java.util.Map;
  */
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
-    private static final Logger log = LogManager.getLogger(EntityFactoryImpl.class);
+    private static final Logger log = Logger.getLogger(EntityFactoryImpl.class);
 
     // Pattern Singleton
     private static EntityFactoryInterface INSTANCE = null;
