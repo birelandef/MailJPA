@@ -1,0 +1,112 @@
+CREATE TABLE Account(
+	id                 VARCHAR2(50) NOT NULL ,
+	email              VARCHAR2(255) NULL ,
+	password           VARCHAR2(255) NULL ,
+	outgoingMailServer VARCHAR2(255) NULL ,
+	incomingMailServer VARCHAR2(255) NULL ,
+	idPerson           VARCHAR2(50) NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKAccount ON Account(id ASC,idPerson ASC);
+
+ALTER TABLE Account ADD CONSTRAINT XPKAccount PRIMARY KEY (id, idPerson);
+
+CREATE TABLE Attachment(
+	id        VARCHAR2(50) NOT NULL ,
+	name      VARCHAR2(255) NULL ,
+	files     BLOB NULL ,
+	idLetter  VARCHAR2(50) NOT NULL ,
+	idFolder  VARCHAR2(50) NOT NULL ,
+	idAccount VARCHAR2(50) NOT NULL ,
+	idPerson  VARCHAR2(50) NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKAttachment ON Attachment(id ASC, idLetter ASC, idFolder ASC, idAccount ASC, idPerson ASC);
+
+ALTER TABLE Attachment ADD CONSTRAINT XPKAttachment PRIMARY KEY (id, idLetter, idFolder, idAccount, idPerson);
+
+CREATE TABLE Contact(
+	id      VARCHAR2(50) NOT NULL ,
+	email   VARCHAR2(255) NULL ,
+	name    VARCHAR2(255) NULL ,
+	surname VARCHAR2(255) NULL
+);
+
+CREATE UNIQUE INDEX XPKContact ON Contact(id ASC);
+
+ALTER TABLE Contact ADD CONSTRAINT XPKContact PRIMARY KEY (id);
+
+CREATE TABLE Folder(
+	id             VARCHAR2(50) NOT NULL ,
+	name           VARCHAR2(255) NULL ,
+	idParentFolder VARCHAR2(50) NULL ,
+	isSystemFolder INTEGER NULL ,
+	description    VARCHAR2(2000) NULL ,
+	idAccount      VARCHAR2(50) NOT NULL ,
+	idPerson       VARCHAR2(50) NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKFolder ON Folder(idPerson ASC, idAccount ASC, id ASC);
+
+ALTER TABLE Folder ADD CONSTRAINT XPKFolder PRIMARY KEY (idPerson, idAccount, id);
+
+CREATE TABLE Letter(
+	id        VARCHAR2(50) NOT NULL ,
+	isSeen    INTEGER NULL ,
+	subject   VARCHAR2(255) NULL ,
+	message   VARCHAR2(2000) NULL ,
+	dateTo    DATE NULL ,
+	idFolder  VARCHAR2(50) NOT NULL ,
+	idAccount VARCHAR2(50) NOT NULL ,
+	idPerson  VARCHAR2(50) NOT NULL ,
+	fromWhom  VARCHAR2(50) NOT NULL,
+    toWhom    VARCHAR2(4000) NULL ,
+    copy      VARCHAR2(4000) NULL
+);
+
+CREATE UNIQUE INDEX XPKLetter ON Letter(id ASC, idFolder ASC, idAccount ASC, idPerson ASC);
+
+ALTER TABLE Letter ADD CONSTRAINT XPKLetter PRIMARY KEY (id, idFolder, idAccount, idPerson);
+
+CREATE TABLE Person(
+	id       VARCHAR2(50) NOT NULL ,
+	login    VARCHAR2(255) NULL ,
+	password VARCHAR2(255) NULL ,
+	name     VARCHAR2(255) NULL ,
+	surname  VARCHAR2(255) NULL ,
+	gender   VARCHAR2(255) NULL ,
+	country  VARCHAR2(255) NULL ,
+	city     VARCHAR2(255) NULL ,
+	info     VARCHAR2(255) NULL ,
+	birthday DATE NULL
+);
+
+CREATE UNIQUE INDEX XPKPerson ON Person(id ASC);
+
+ALTER TABLE Person ADD CONSTRAINT XPKPerson PRIMARY KEY (id);
+
+CREATE TABLE Person_Contact(
+	idPerson  VARCHAR2(50) NOT NULL ,
+	idContact VARCHAR2(50) NOT NULL
+);
+
+CREATE UNIQUE INDEX XPKPerson_Contact ON Person_Contact(idPerson ASC, idContact ASC);
+
+ALTER TABLE Person_Contact ADD CONSTRAINT XPKPerson_Contact PRIMARY KEY (idPerson, idContact);
+
+ALTER TABLE Account	ADD (CONSTRAINT R_61 FOREIGN KEY (idPerson) REFERENCES Person (id) ON DELETE CASCADE);
+
+ALTER TABLE Attachment	ADD (CONSTRAINT R_8 FOREIGN KEY (idLetter, idFolder, idAccount, idPerson)
+REFERENCES Letter (id, idFolder, idAccount, idPerson) ON DELETE CASCADE);
+
+ALTER TABLE Folder	ADD (CONSTRAINT R_10 FOREIGN KEY (idAccount, idPerson) REFERENCES Account (id, idPerson) ON DELETE CASCADE);
+
+ALTER TABLE Folder ADD (CONSTRAINT R_14 FOREIGN KEY (idPerson, idAccount, id) REFERENCES Folder (idPerson, idAccount, id)
+ON DELETE CASCADE);
+
+ALTER TABLE Letter ADD (CONSTRAINT R_7 FOREIGN KEY (idPerson, idAccount, idFolder) REFERENCES Folder (idPerson,
+idAccount, id) ON DELETE CASCADE);
+
+ALTER TABLE Person_Contact ADD (CONSTRAINT R_62 FOREIGN KEY (idPerson) REFERENCES Person (id) ON DELETE CASCADE);
+
+ALTER TABLE Person_Contact ADD (CONSTRAINT R_64 FOREIGN KEY (idContact) REFERENCES Contact (id) ON DELETE CASCADE);
