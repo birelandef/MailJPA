@@ -2,7 +2,8 @@ package edu.mail.core.factory;
 
 import edu.mail.api.Gender;
 import edu.mail.core.entities.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 public class EntityFactoryImpl implements EntityFactoryInterface {
 
-    private static final Logger log = Logger.getLogger(EntityFactoryImpl.class);
+    private static final Logger log = LogManager.getLogger(EntityFactoryImpl.class);
 
     // Pattern Singleton
     private static EntityFactoryInterface INSTANCE = null;
@@ -38,7 +39,7 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
                     + "\"}, {name = \"" + name + "\"}, {surname = \"" + surname + "\"}, {gender = " + gender.getValue()
                     + "}, {birthday = " + (new SimpleDateFormat("dd MMM yyyy")).format(birthday) + "}, {country = \"" +
                     country + "\"}, {city = \"" + city + "\"}, {info = \"" + info + "\"}, {mailboxes = " +
-                    mailboxes + "}, {contacts = " + contacts + "}");
+                    mailboxes.toString() + "}, {contacts = " + contacts.toString() + "}");
         }
         return new Person(login, password, name, surname, gender, birthday, country, city, info, mailboxes, contacts);
     }
@@ -49,7 +50,7 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
         if (log.isTraceEnabled()) {
             log.trace("The call method createAccount() with parameters: {email = \"" + email + "\"}, {password = \"" +
                     password + "\"}, {outgoingMailServer = \"" + outgoingMailServer + "\"}, {incomingMailServer = \"" +
-                    incomingMailServer + "\"}, {idPerson = " + (idPerson != null ? idPerson.getId() : null) + "}");
+                    incomingMailServer + "\"}, {idPerson = " + idPerson.getId() + "}");
         }
         return new Account(email, password, outgoingMailServer, incomingMailServer, idPerson);
     }
@@ -67,10 +68,9 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
     public Folder createFolder(Account idAccount, String name, Folder idParentFolder, Person idPerson,
                                boolean isSystemFolder, String description) {
         if (log.isTraceEnabled()) {
-            log.trace("The call method createFolder() with parameters: {idAccount = " + (idAccount != null ?
-                    idAccount.getId() : null) + "}, {name = \"" + name + "\"}, {idParentFolder = " + (idParentFolder != null ?
-                    idParentFolder.getId() : null) + "}, {idPerson = " + (idPerson != null ? idPerson.getId() : null) +
-                    "}, {isSystemFolder = " + isSystemFolder + "}, {description = \"" + description + "\"}");
+            log.trace("The call method createFolder() with parameters: {idAccount = " + idAccount.getId() + "}, {name = \""
+                    + name + "\"}, {idParentFolder = " + idParentFolder.getId() + "}, {idPerson = " + idPerson.getId()
+                    + "}, {isSystemFolder = " + isSystemFolder + "}, {description = \"" + description + "\"}");
         }
         return new Folder(idAccount, name, idParentFolder, idPerson, isSystemFolder, description);
     }
@@ -80,12 +80,11 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
                                List<String> toWhom, List<String> copy, String subject, String message,
                                List<Attachment> attachments, Date date) {
         if (log.isTraceEnabled()) {
-            log.fatal("The call method createLetter() with parameters: {idPerson = " + (idPerson != null ? idPerson.getId()
-                    : null) + "}, {idFolder = " + (idFolder != null ? idFolder.getId() : null) + "}, {idAccount = " +
-                    (idAccount != null ? idAccount.getId() : null) + "}, {isSeen = " + isSeen + "}, {fromWhom = \""
-                    + fromWhom + "\"}, {toWhom = " + toWhom + "}, {copy = " + copy + "}, {subject = \""
-                    + subject + "\"}, {message = \"" + message + "\"}, {attachments = " + attachments + "}, {date = \""
-                    + (date != null ? (new SimpleDateFormat("dd MMM yyyy kk:mm:ss")).format(date) : null) + "\"}");
+            log.fatal("The call method createLetter() with parameters: {idPerson = " + idPerson.getId() + "}, {idFolder = "
+                    + idFolder.getId() + "}, {idAccount = " + idAccount.getId() + "}, {isSeen = " + isSeen + "}, {fromWhom = \""
+                    + fromWhom + "\"}, {toWhom = " + toWhom.toString() + "}, {copy = " + copy.toString() + "}, {subject = \""
+                    + subject + "\"}, {message = \"" + message + "\"}, {attachments = " + attachments.toString() + "}, {date = \""
+                    + (new SimpleDateFormat("dd MMM yyyy kk:mm:ss")).format(date) + "\"}");
         }
         return new Letter(idPerson, idFolder, idAccount, isSeen, fromWhom, toWhom, copy, subject, message, attachments,
                 date);
@@ -96,9 +95,8 @@ public class EntityFactoryImpl implements EntityFactoryInterface {
                                        Person idPerson) {
         if (log.isTraceEnabled()) {
             log.trace("The call method createAttachment() with parameters: {name = \"" + name + "\"}, {idLetter = "
-                    + (idLetter != null ? idLetter.getId() : null) + "}, {idFolder = " + (idFolder != null ?
-                    idFolder.getId() : null) + "}, {idAccount = " + (idAccount != null ? idAccount.getId() : null)
-                    + "}, {idPerson = " + (idPerson != null ? idPerson.getId() : null) + "}");
+                    + idLetter.getId() + "}, {idFolder = " + idFolder.getId() + "}, {idAccount = " + idAccount.getId()
+                    + "}, {idPerson = " + idPerson.getId() + "}");
         }
         return new Attachment(name, files, idLetter, idFolder, idAccount, idPerson);
     }

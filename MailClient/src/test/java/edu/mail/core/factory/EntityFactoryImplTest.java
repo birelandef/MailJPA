@@ -2,7 +2,8 @@ package edu.mail.core.factory;
 
 import edu.mail.api.Gender;
 import edu.mail.core.entities.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,23 +22,23 @@ import static org.junit.Assert.*;
  */
 public class EntityFactoryImplTest {
 
-    private static final Logger log = Logger.getLogger(EntityFactoryImplTest.class);
+    private static final Logger log = LogManager.getLogger(EntityFactoryImplTest.class);
 
-    private static SimpleDateFormat sdfBD;
+    private SimpleDateFormat sdfBD;
 
-    private static Person person;
-    private static Account account;
-    private static Contact contact;
-    private static Folder folder;
-    private static Letter letter;
-    private static Attachment attachment;
+    private Person person;
+    private Account account;
+    private Contact contact;
+    private Folder folder;
+    private Letter letter;
+    private Attachment attachment;
 
     @BeforeClass
-    public static void init() throws ParseException {
-        sdfBD = new SimpleDateFormat("dd.mm.yyyy");
+    public void init() throws ParseException {
+        sdfBD = new SimpleDateFormat("dd MMM yyyy");
 
         person = EntityFactoryImpl.getInstance().createPerson("sofia-ruban@yandex.ru", "58Cv12qw", "Sofia",
-                "Ruban", Gender.WOMAN, sdfBD.parse("20.10.1994"), "Russia", "Moscow", "", null, null);
+                "Ruban", Gender.WOMAN, sdfBD.parse("20 Oct 1994"), "Russia", "Moscow", "", null, null);
         account = EntityFactoryImpl.getInstance().createAccount("sofia-ruban@yandex.ru", "58Cv12qw",
                 "smtp.yandex.ru", "imap.yandex.ru", null);
         contact = EntityFactoryImpl.getInstance().createContact("roma-dovgalyow@yandex.ru", "Roman", "Dovgalev");
@@ -66,7 +67,7 @@ public class EntityFactoryImplTest {
         assertEquals("Field \"name\" does not match expected value", "Sofia", person.getName());
         assertEquals("Field \"surname\" does not match expected value", "Ruban", person.getSurname());
         assertEquals("Field \"gender\" does not match expected value", Gender.WOMAN, person.getGender());
-        assertEquals("Field \"birthday\" does not match expected value", "20.10.1994", sdfBD.format(person.getBirthday()));
+        assertEquals("Field \"birthday\" does not match expected value", "20 Oct 1994", sdfBD.format(person.getBirthday()));
         assertEquals("Field \"country\" does not match expected value", "Russia", person.getCountry());
         assertEquals("Field \"city\" does not match expected value", "Moscow", person.getCity());
         assertEquals("Field \"info\" does not match expected value", "", person.getInfo());
@@ -136,7 +137,7 @@ public class EntityFactoryImplTest {
         assertEquals("Field \"idFolder\" does not match expected value", folder.getId(), letter.getIdFolder().getId());
         assertEquals("Field \"idAccount\" does not match expected value", account.getId(), letter.getIdAccount().getId());
         assertFalse("Field \"isSeen\" does not match expected value", letter.isSeen());
-        assertEquals("Field \"fromWhom\" does not match expected value", "sofia-ruban@yandex.ru", letter.getFromWhom());
+        assertEquals("Field \"fromWhom\" does not match expected value", "sofia-ruban@yandex.ru", letter.getToWhom());
         assertEquals("Field \"toWhom\" does not match expected value", contact.getEmail(), letter.getToWhom());
         assertEquals("Field \"copy\" does not match expected value", "", letter.getCopy());
         assertEquals("Field \"subject\" does not match expected value", "Test message", letter.getSubject());
@@ -149,7 +150,7 @@ public class EntityFactoryImplTest {
     public void testCreateAttachment() throws Exception {
         log.trace("The call method testCreateAttachment()");
 
-        File file = new File(this.getClass().getResource("Test_file.jpg").toURI());
+        File file = new File("/Test_file.jpg");
         attachment.setName(file.getName());
         attachment.setFiles(Files.readAllBytes(file.toPath()));
         attachment.setIdLetter(letter);

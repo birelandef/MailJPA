@@ -36,7 +36,7 @@ public class Authorization implements AuthorizationLocal {
     }
 
     @Override
-    public boolean checkExistencePersonAndPassword(String login, String password) throws RuntimeException{
+    public boolean logIn(String login, String password) throws RuntimeException{
         Locale.setDefault(Locale.ENGLISH);
         JPADAO<Person> personJPADAO = new JPADAO<>();
         String queryString = "SELECT p FROM Person p WHERE LOGIN='" + login + "'";
@@ -62,6 +62,6 @@ public class Authorization implements AuthorizationLocal {
 
     @Override
     public void logOut() {
-        //TODO
+        authorizedPerson = null;
     }
 }

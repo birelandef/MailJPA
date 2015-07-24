@@ -7,12 +7,15 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Local;
 import javax.ejb.Stateful;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Store;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
-import javax.mail.*;
 
 /**
+ * Class for  log in and log out all accounts of user
  * @author Sophie
  * @date 07.07.2015.
  */
@@ -22,15 +25,18 @@ import javax.mail.*;
 public class AccountsLogIn implements AccountsLogInLocal {
 
     private static final Logger logger = Logger.getLogger(AccountsLogIn.class);
+
     private Session session = null;
     private Store mailStore = null;
+
+    public Session getSession() { return session; }
+    public Store getMailStore() { return mailStore;}
 
     @Override
     public void logIn(String idAccount) {
         final Account account = (new JPADAO<Account>()).findEntityById(idAccount);
         final String user = account.getEmail();
         final String pass = account.getPassword();
-        System.out.println(pass);
         final String host = account.getIncomingMailServer();
         Properties properties = new Properties();
         try {
@@ -41,15 +47,6 @@ public class AccountsLogIn implements AccountsLogInLocal {
             mailStore = session.getStore();
             mailStore.connect(host, user, pass);
 
-//            Folder inbox = mailStore.getFolder("INBOX");
-//
-//            inbox.open(Folder.READ_ONLY);
-//            Message[] messages = inbox.getMessages();
-//            for (Message m: messages){
-//                System.out.println(m.getSubject());
-//            }
-//            inbox.close(true);
-//            mailStore.close();
         } catch (NoSuchProviderException e) {
             logger.error("NoSuchProviderException", e);
         } catch (MessagingException e) {
@@ -57,6 +54,9 @@ public class AccountsLogIn implements AccountsLogInLocal {
         }
     }
 
+    public boolean isLogIn(){
+        return mailStore.isConnected();
+    }
     @Override
     public void logOut(String idAccount) {
         try {
@@ -67,7 +67,7 @@ public class AccountsLogIn implements AccountsLogInLocal {
     }
 
     @Override
-    public List<Account> getAccountsList(Person person) {
+    public ArrayList<Account> getAccountsList(Person person) {
         return new ArrayList<Account>(person.getMailboxes().values());
     }
 }

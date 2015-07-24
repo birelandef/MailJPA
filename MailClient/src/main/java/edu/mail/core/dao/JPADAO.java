@@ -1,6 +1,6 @@
 package edu.mail.core.dao;
 
-import com.company.core.api.Constants;
+import edu.mail.api.Constants;
 import edu.mail.core.entities.*;
 import edu.mail.core.entities.Entity;
 import org.apache.log4j.Logger;

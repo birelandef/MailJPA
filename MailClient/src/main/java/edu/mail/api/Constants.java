@@ -1,4 +1,4 @@
-package com.company.core.api;
+package edu.mail.api;
 
 import java.io.File;
 
